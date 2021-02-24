@@ -33,19 +33,15 @@ export default function HomeScreen() {
       );
       const { data } = await response.json();
       setLoading(false);
-      console.log(data.pagination, 'response for get all user', page);
       setPage(parseInt(data.pagination.page));
       setUsers([...users, ...data.users]);
-      console.log(...users, data.users, 'Updated Users');
     } catch (error) {
       setLoading(false);
-      console.log(error, 'error getting all Users');
     }
   };
 
   useEffect(() => {
     const getNextUsersData = async () => {
-      console.log(page, 'Page NUmber');
       if (page !== 0) {
         await getUsers();
       }
@@ -54,7 +50,6 @@ export default function HomeScreen() {
   }, [page]);
 
   const renderItem = ({ item }) => {
-    console.log(item.profile_pic, "Pic")
     return (
       <View
         style={{
@@ -89,9 +84,8 @@ export default function HomeScreen() {
       <FlatList
         data={users}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index}
         onEndReached={async () => {
-          console.log(page, 'End Reached');
           await setPage(page + 1);
         }}
       />

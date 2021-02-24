@@ -26,7 +26,6 @@ export default function SignupScreen({ navigation }) {
     } else {
       try {
         setLoading(true);
-        console.log(body, 'Body');
 
         const response = await fetch(URL, {
           method: 'Post',
@@ -37,7 +36,7 @@ export default function SignupScreen({ navigation }) {
         setLoading(false);
         if (response.status === 201) {
           alert('User created successfully');
-          console.log(meta, data, '201 response');
+
           await AsyncStorage.setItem('user', JSON.stringify(data.user));
           await AsyncStorage.setItem('token', JSON.stringify(data.token));
           navigation.navigate('Home');
@@ -48,10 +47,10 @@ export default function SignupScreen({ navigation }) {
         } else {
           alert('Something went wrong! Please try again after sometime');
         }
-        console.log(response, meta, 'Response from Signup');
+
       } catch (error) {
         setLoading(false);
-        console.log(error, 'Error signup');
+
         alert(error, 'Something went wrong!');
       }
     }
